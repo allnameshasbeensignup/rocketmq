@@ -125,8 +125,11 @@ public class TopicConfigManager extends ConfigManager {
             String topic = TopicValidator.RMQ_SYS_SCHEDULE_TOPIC;
             TopicConfig topicConfig = new TopicConfig(topic);
             TopicValidator.addSystemTopic(topic);
-            topicConfig.setReadQueueNums(SCHEDULE_TOPIC_QUEUE_NUM);
-            topicConfig.setWriteQueueNums(SCHEDULE_TOPIC_QUEUE_NUM);
+            String levelString = this.brokerController.getMessageStoreConfig().getMessageDelayLevel();
+            String[] levelArray = levelString.split(" ");
+            int schedule_topic_queue_num_my =  levelArray.length + 1;
+            topicConfig.setReadQueueNums(schedule_topic_queue_num_my);
+            topicConfig.setWriteQueueNums(schedule_topic_queue_num_my);
             this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
         }
         {
